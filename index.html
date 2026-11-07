@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Casse-Croûte Rush — le coup de feu, version québécoise</title>
+<meta name="description" content="Casse-Croûte Rush : un jeu de cuisine coopératif en temps réel. De 1 à 4 joueurs sur le même écran, 12 plats québécois, 4 services de 4 minutes. Jouez gratuitement dans votre navigateur.">
+<meta property="og:title" content="Casse-Croûte Rush">
+<meta property="og:description" content="Poutine, tourtière, pâté chinois… Faites rouler le casse-croûte en équipe avant la fin du service!">
+<meta property="og:image" content="img/og.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#e8403a">
+<link rel="icon" href="img/poutine.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#fbf3e2; --cream-2:#f4e6c8; --paper:#fffaf0;
+  --red:#e8403a; --red-d:#b92a25; --maple:#f08a24; --gold:#ffc93c;
+  --ink:#2b2140; --ink-2:#5b4d6e; --wood:#8a5a32; --green:#2ea865; --blue:#3a7bff;
+  --r:22px; --shadow:0 18px 40px -18px rgba(43,33,64,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:Fredoka,Poppins,sans-serif;line-height:1.08;letter-spacing:-.01em}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+.btn{display:inline-flex;align-items:center;gap:.6em;padding:.95em 1.6em;border-radius:999px;font-weight:700;text-decoration:none;transition:transform .15s,box-shadow .15s,background .15s;border:3px solid var(--ink)}
+.btn-primary{background:var(--red);color:#fff;box-shadow:0 6px 0 var(--ink)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 0 var(--ink)}
+.btn-primary:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+.btn-ghost{background:var(--paper);color:var(--ink);box-shadow:0 6px 0 var(--ink)}
+.btn-ghost:hover{transform:translateY(-2px);box-shadow:0 8px 0 var(--ink)}
+.tag{display:inline-block;font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red);background:#ffe3dc;border:2px solid var(--red);padding:.25em .8em;border-radius:999px}
+
+/* nav */
+header{position:sticky;top:0;z-index:50;background:rgba(251,243,226,.86);backdrop-filter:blur(10px);border-bottom:2px solid rgba(43,33,64,.08)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:.55rem;font-family:Fredoka;font-weight:700;font-size:1.35rem;text-decoration:none}
+.logo img{width:40px;height:40px}
+.nav ul{display:flex;gap:1.8rem;list-style:none;font-weight:600;font-size:.95rem}
+.nav ul a{text-decoration:none;opacity:.8}.nav ul a:hover{opacity:1;color:var(--red)}
+.nav .btn{padding:.6em 1.2em;font-size:.9rem;box-shadow:0 4px 0 var(--ink)}
+@media (max-width:820px){.nav ul{display:none}}
+
+/* hero */
+.hero{position:relative;padding:70px 0 110px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 80% 30%,#ffd9a8 0,transparent 70%),radial-gradient(40% 50% at 10% 90%,#ffd0c4 0,transparent 70%);z-index:-1}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(2.6rem,6vw,4.6rem);margin:.4em 0 .3em}
+.hero h1 em{font-style:normal;color:var(--red);position:relative;white-space:nowrap}
+.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.22em;background:var(--gold);z-index:-1;border-radius:6px}
+.hero p.lead{font-size:1.15rem;color:var(--ink-2);max-width:34em}
+.cta-row{display:flex;flex-wrap:wrap;gap:16px;margin:30px 0 26px}
+.facts{display:flex;flex-wrap:wrap;gap:10px}
+.facts span{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:.35em .9em;font-weight:600;font-size:.9rem}
+.shot{position:relative}
+.shot .frame{border:4px solid var(--ink);border-radius:26px;overflow:hidden;box-shadow:var(--shadow),0 10px 0 var(--ink);transform:rotate(2.2deg);background:#000}
+.float{position:absolute;filter:drop-shadow(0 14px 14px rgba(43,33,64,.35));animation:float 5s ease-in-out infinite}
+.f1{width:150px;left:-50px;bottom:-40px}
+.f2{width:120px;right:-30px;top:-46px;animation-delay:-1.6s}
+.f3{width:96px;right:40px;bottom:-56px;animation-delay:-3.2s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}.shot{margin-top:20px}.f1{left:-10px;width:110px}.f2{right:-6px;width:90px}}
+
+/* checker band + ticker */
+.checker{height:28px;background:conic-gradient(var(--red) 25%,#fff 0 50%,var(--red) 0 75%,#fff 0) 0 0/28px 28px;border-block:3px solid var(--ink)}
+.ticker{background:var(--ink);color:#fff;overflow:hidden;padding:18px 0}
+.track{display:flex;gap:46px;width:max-content;animation:scroll 40s linear infinite}
+.track div{display:flex;align-items:center;gap:14px;font-family:Fredoka;font-size:1.35rem;font-weight:600;white-space:nowrap}
+.track img{width:56px;height:56px}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+section{padding:100px 0}
+.head{text-align:center;max-width:720px;margin:0 auto 54px}
+.head h2{font-size:clamp(2rem,4.2vw,3.1rem);margin:.35em 0 .3em}
+.head p{color:var(--ink-2);font-size:1.08rem}
+
+/* features */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);padding:30px;box-shadow:0 8px 0 var(--ink);transition:transform .2s}
+.card:hover{transform:translateY(-6px) rotate(-.5deg)}
+.card .ico{width:86px;height:86px;border-radius:22px;display:grid;place-items:center;margin-bottom:18px;border:3px solid var(--ink)}
+.card .ico img{width:68px}
+.card h3{font-size:1.5rem;margin-bottom:.35em}
+.card p{color:var(--ink-2)}
+@media (max-width:900px){.features{grid-template-columns:1fr}}
+
+/* menu */
+.menu{background:var(--wood) url(img/plateau.jpg) center/cover;position:relative;color:#fff}
+.menu::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,33,64,.82),rgba(43,33,64,.9))}
+.menu .wrap{position:relative}
+.menu .head p{color:#e9dcff}
+.dishes{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.dish{background:var(--paper);color:var(--ink);border-radius:var(--r);border:3px solid var(--ink);padding:18px 16px 18px;text-align:center;box-shadow:0 8px 0 #000;transition:transform .2s}
+.dish:hover{transform:translateY(-6px)}
+.dish img{width:150px;margin:0 auto 6px;transition:transform .4s}
+.dish:hover img{transform:rotate(12deg) scale(1.06)}
+.dish h3{font-size:1.2rem}
+.dish small{display:block;color:var(--ink-2);font-size:.82rem;margin-top:2px}
+.stars{color:var(--maple);font-size:.95rem;letter-spacing:2px}
+@media (max-width:980px){.dishes{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:640px){.dishes{grid-template-columns:repeat(2,1fr)}.dish img{width:110px}}
+
+/* how */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;counter-reset:s}
+.step{position:relative;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);padding:44px 22px 24px;box-shadow:0 8px 0 var(--ink)}
+.step::before{counter-increment:s;content:counter(s);position:absolute;top:-24px;left:22px;width:48px;height:48px;border-radius:50%;background:var(--gold);border:3px solid var(--ink);display:grid;place-items:center;font-family:Fredoka;font-weight:700;font-size:1.4rem}
+.step h3{font-size:1.25rem;margin-bottom:.4em}
+.step p{color:var(--ink-2);font-size:.95rem}
+.step .mini{display:flex;gap:6px;margin-top:14px}.step .mini img{width:40px}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.rule{display:flex;gap:14px;align-items:flex-start;background:#fff;border-radius:18px;padding:18px;border:2px dashed var(--ink-2)}
+.rule b{font-family:Fredoka;font-size:1.6rem;line-height:1}
+@media (max-width:980px){.steps{grid-template-columns:repeat(2,1fr);row-gap:44px}.rules{grid-template-columns:1fr}}
+@media (max-width:560px){.steps{grid-template-columns:1fr}}
+
+/* platforms */
+.plats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.plat{border-radius:var(--r);padding:28px;border:3px solid var(--ink);background:var(--paper);box-shadow:0 8px 0 var(--ink)}
+.plat h3{font-size:1.4rem;margin:.5em 0 .3em}.plat p{color:var(--ink-2)}
+.badge{display:inline-block;font-size:.78rem;font-weight:700;padding:.25em .8em;border-radius:999px;border:2px solid var(--ink)}
+.ok{background:#c9f5d8}.soon{background:#ffe9b0}.dev{background:#e3dcff}
+@media (max-width:900px){.plats{grid-template-columns:1fr}}
+
+/* final cta */
+.final{padding:0 0 110px}
+.final-box{position:relative;background:var(--red);color:#fff;border:4px solid var(--ink);border-radius:34px;padding:60px 56px;box-shadow:0 12px 0 var(--ink);overflow:hidden;display:grid;grid-template-columns:1.3fr .7fr;align-items:center;gap:30px}
+.final-box::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.12)}
+.final-box h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:.3em}
+.final-box p{opacity:.92;margin-bottom:28px;font-size:1.1rem}
+.final-box .btn-ghost{color:var(--ink)}
+.final-box img{width:100%;max-width:280px;justify-self:center;animation:float 5s ease-in-out infinite;position:relative;z-index:1}
+@media (max-width:820px){.final-box{grid-template-columns:1fr;padding:44px 26px;text-align:center}.final-box img{max-width:180px}}
+
+footer{background:var(--ink);color:#d9cfe9;padding:40px 0;font-size:.92rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer a{color:#fff}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap nav">
+    <a class="logo" href="#"><img src="img/poutine.webp" alt="">Casse-Croûte Rush</a>
+    <ul>
+      <li><a href="#jeu">Le jeu</a></li>
+      <li><a href="#menu">Le menu</a></li>
+      <li><a href="#jouer-comment">Comment jouer</a></li>
+      <li><a href="#plateformes">Plateformes</a></li>
+    </ul>
+    <a class="btn btn-primary" href="jouer/">Jouer ▶</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="tag">🍁 Jeu coopératif en temps réel</span>
+      <h1>Le coup de feu au <em>casse-croûte</em>!</h1>
+      <p class="lead">Poutine, tourtière, pâté chinois… Les commandes s'empilent et le sablier coule. Glissez vos cuisiniers, montez les assiettes et servez avant la fin du service. En équipe, sur le même écran.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="jouer/">▶ Jouer dans le navigateur</a>
+        <a class="btn btn-ghost" href="#jouer-comment">Comment jouer</a>
+      </div>
+      <div class="facts"><span>👥 1 à 4 joueurs</span><span>⏱️ 4 services de 4 min</span><span>🍽️ 12 plats québécois</span><span>🆓 Gratuit</span></div>
+    </div>
+    <div class="shot">
+      <div class="frame"><img src="img/jeu.jpg" alt="Le plateau de Casse-Croûte Rush avec les commandes, les postes de cuisine et la passe" width="1920" height="1080"></div>
+      <img class="float f1" src="img/poutine.webp" alt="">
+      <img class="float f2" src="img/tourtiere.webp" alt="">
+      <img class="float f3" src="img/ico-sirop.webp" alt="">
+    </div>
+  </div>
+</section>
+
+<div class="checker"></div>
+<div class="ticker" aria-hidden="true">
+  <div class="track">
+    <div><img src="img/poutine.webp" alt="">Poutine</div><div><img src="img/pate-chinois.webp" alt="">Pâté chinois</div><div><img src="img/tourtiere.webp" alt="">Tourtière</div><div><img src="img/feves-au-lard.webp" alt="">Fèves au lard</div><div><img src="img/galvaude.webp" alt="">Galvaude</div><div><img src="img/pouding-chomeur.webp" alt="">Pouding chômeur</div><div><img src="img/guedille.webp" alt="">Guédille</div><div><img src="img/tire-sur-la-neige.webp" alt="">Tire sur la neige</div>
+    <div><img src="img/poutine.webp" alt="">Poutine</div><div><img src="img/pate-chinois.webp" alt="">Pâté chinois</div><div><img src="img/tourtiere.webp" alt="">Tourtière</div><div><img src="img/feves-au-lard.webp" alt="">Fèves au lard</div><div><img src="img/galvaude.webp" alt="">Galvaude</div><div><img src="img/pouding-chomeur.webp" alt="">Pouding chômeur</div><div><img src="img/guedille.webp" alt="">Guédille</div><div><img src="img/tire-sur-la-neige.webp" alt="">Tire sur la neige</div>
+  </div>
+</div>
+
+<section id="jeu">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="tag">Le jeu</span>
+      <h2>Ça brasse en cuisine</h2>
+      <p>Personne n'attend son tour : tout le monde joue en même temps. Il faut se parler, se répartir les postes et garder un œil sur le chrono.</p>
+    </div>
+    <div class="features">
+      <article class="card reveal"><div class="ico" style="background:#ffe3dc"><img src="img/chef.webp" alt=""></div><h3>Des cuisiniers-sabliers</h3><p>Posez un cuisinier sur un poste : il y reste 30 secondes. Bien placer son monde, c'est la clé du service.</p></article>
+      <article class="card reveal"><div class="ico" style="background:#dff3ff"><img src="img/ico-legumes.webp" alt=""></div><h3>Vous montez les assiettes</h3><p>Glissez vous-mêmes les ingrédients et les épices sur la bonne assiette. Une erreur? L'assiette est ratée.</p></article>
+      <article class="card reveal"><div class="ico" style="background:#fff1c9"><img src="img/ico-piece.webp" alt=""></div><h3>Payez vos employés</h3><p>Chaque plat rapporte de l'argent et des étoiles, mais chaque cuisinier utilisé coûte 3 $. Pas de paye? Grève!</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="menu" class="menu">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="tag" style="background:#fff;border-color:#fff">Au menu</span>
+      <h2>12 classiques du Québec</h2>
+      <p>Du simple hot-dog steamé à la galvaude bien garnie : plus le plat est payant, plus il demande d'ingrédients, d'épices et de passages au fourneau.</p>
+    </div>
+    <div class="dishes">
+      <div class="dish reveal"><img src="img/poutine.webp" alt="Poutine" loading="lazy"><h3>Poutine</h3><small>Patates, fromage en grains, sauce brune</small><div class="stars">★</div></div>
+      <div class="dish reveal"><img src="img/pate-chinois.webp" alt="Pâté chinois" loading="lazy"><h3>Pâté chinois</h3><small>Viande, maïs, patates, sel et poivre</small><div class="stars">★★</div></div>
+      <div class="dish reveal"><img src="img/tourtiere.webp" alt="Tourtière" loading="lazy"><h3>Tourtière</h3><small>Viande, pâte, épices à tourtière</small><div class="stars">★★</div></div>
+      <div class="dish reveal"><img src="img/galvaude.webp" alt="Galvaude" loading="lazy"><h3>Galvaude</h3><small>Le plat le plus payant du menu</small><div class="stars">★★</div></div>
+      <div class="dish reveal"><img src="img/feves-au-lard.webp" alt="Fèves au lard" loading="lazy"><h3>Fèves au lard</h3><small>Fèves, lard, sirop d'érable</small><div class="stars">★</div></div>
+      <div class="dish reveal"><img src="img/soupe-aux-pois.webp" alt="Soupe aux pois" loading="lazy"><h3>Soupe aux pois</h3><small>Pois, légumes, une pincée de sel</small><div class="stars">★</div></div>
+      <div class="dish reveal"><img src="img/pouding-chomeur.webp" alt="Pouding chômeur" loading="lazy"><h3>Pouding chômeur</h3><small>Pâte et sirop d'érable</small><div class="stars">★</div></div>
+      <div class="dish reveal"><img src="img/cretons.webp" alt="Cretons sur rôties" loading="lazy"><h3>Cretons sur rôties</h3><small>Viande, pain, épices</small><div class="stars">★</div></div>
+      <div class="dish reveal"><img src="img/spaghetti.webp" alt="Spaghetti sauce à la viande" loading="lazy"><h3>Spaghetti sauce viande</h3><small>Pâtes, viande, légumes</small><div class="stars">★</div></div>
+      <div class="dish reveal"><img src="img/hot-dog-steame.webp" alt="Hot-dog steamé" loading="lazy"><h3>Hot-dog steamé</h3><small>Rapide et efficace</small><div class="stars" style="opacity:.35">★</div></div>
+      <div class="dish reveal"><img src="img/guedille.webp" alt="Guédille" loading="lazy"><h3>Guédille</h3><small>Pain, légumes, sel et poivre, sans cuisson</small><div class="stars" style="opacity:.35">★</div></div>
+      <div class="dish reveal"><img src="img/tire-sur-la-neige.webp" alt="Tire sur la neige" loading="lazy"><h3>Tire sur la neige</h3><small>Juste du sirop d'érable!</small><div class="stars" style="opacity:.35">★</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="jouer-comment">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="tag">Comment jouer</span>
+      <h2>Un service en 4 étapes</h2>
+      <p>Quatre services de quatre minutes. Après le quatrième, il vous faut 8 étoiles pour faire du casse-croûte un succès.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><h3>Accueillez les clients</h3><p>À l'accueil, de nouvelles commandes arrivent sur les tables. Le serveur les apporte en cuisine sur une assiette propre.</p><div class="mini"><img src="img/poutine.webp" alt=""><img src="img/guedille.webp" alt=""></div></div>
+      <div class="step reveal"><h3>Montez les assiettes</h3><p>Garde-manger et épices ouverts? Glissez les bons ingrédients sur la bonne assiette, et vite!</p><div class="mini"><img src="img/ico-patates.webp" alt=""><img src="img/ico-fromage.webp" alt=""><img src="img/ico-sauce.webp" alt=""></div></div>
+      <div class="step reveal"><h3>Faites cuire</h3><p>Chaque cuisinier aux fourneaux donne une étape de cuisson. Touchez l'assiette à cuire, mais attention de ne pas la brûler.</p><div class="mini"><img src="img/tourtiere.webp" alt=""></div></div>
+      <div class="step reveal"><h3>Servez et payez</h3><p>Fin du service : les plats prêts rapportent de l'argent et des étoiles. Ensuite, on paye les salaires!</p><div class="mini"><img src="img/ico-piece.webp" alt=""><img src="img/ico-piece.webp" alt=""></div></div>
+    </div>
+    <div class="rules">
+      <div class="rule reveal"><b>✗</b><div><strong>Une erreur = assiette ratée.</strong><br>Mauvais ingrédient, trop cuit ou ingrédient ajouté après la cuisson : -1 prestige.</div></div>
+      <div class="rule reveal"><b>🛒</b><div><strong>Le stock s'épuise.</strong><br>À l'épicerie, 1 $ achète 5 ingrédients ou 3 épices. C'est vous qui choisissez.</div></div>
+      <div class="rule reveal"><b>🧽</b><div><strong>Pensez à la vaisselle!</strong><br>Sans assiettes propres, impossible de prendre de nouvelles commandes.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="plateformes" style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="tag">Plateformes</span>
+      <h2>Où jouer?</h2>
+    </div>
+    <div class="plats">
+      <div class="plat reveal"><span class="badge ok">Disponible</span><h3>🌐 Navigateur</h3><p>Sur ordinateur ou sur tablette, directement dans votre navigateur. Rien à installer.</p></div>
+      <div class="plat reveal"><span class="badge soon">Bientôt</span><h3>📱 Android</h3><p>Une version tablette pour jouer à plusieurs sur le même écran, du bout des doigts.</p></div>
+      <div class="plat reveal"><span class="badge dev">En développement</span><h3>🎲 Table tactile</h3><p>Une version pensée pour une grande table de jeu tactile, avec un vestiaire de chaque côté.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <div class="final-box reveal">
+      <div>
+        <h2>La cuisine ouvre dans 3, 2, 1…</h2>
+        <p>Rassemblez la brigade, prenez place autour de l'écran et lancez le premier service.</p>
+        <a class="btn btn-ghost" href="jouer/">▶ Jouer maintenant</a>
+      </div>
+      <img src="img/chef.webp" alt="Le chef de Casse-Croûte Rush">
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Francis Labonville · Casse-Croûte Rush</span>
+    <span>Fait au Québec avec GameMaker 🍁</span>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*80+'ms';io.observe(el)});
+</script>
+</body>
+</html>
