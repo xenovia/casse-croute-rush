@@ -1,0 +1,13 @@
+{
+  // Casse-Croûte Rush : Worker avec actifs statiques (même config que sugarshackrush / puzzlemd)
+  "name": "casse-croute-rush",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "casse-croute-rush.xalibur.cc", "custom_domain": true }
+  ]
+}
