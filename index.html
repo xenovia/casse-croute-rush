@@ -7,10 +7,12 @@
 <meta name="description" content="Casse-Croûte Rush : un jeu de cuisine coopératif en temps réel. De 1 à 4 joueurs sur le même écran, 12 plats québécois, 4 services de 4 minutes. Jouez gratuitement dans votre navigateur.">
 <meta property="og:title" content="Casse-Croûte Rush">
 <meta property="og:description" content="Poutine, tourtière, pâté chinois… Faites rouler le casse-croûte en équipe avant la fin du service!">
-<meta property="og:image" content="img/og.jpg">
+<meta property="og:image" content="og-image.jpg">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#e8403a">
-<link rel="icon" href="img/poutine.webp">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -53,6 +55,11 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,243,226,.86);backdro
 .hero h1{font-size:clamp(2.6rem,6vw,4.6rem);margin:.4em 0 .3em}
 .hero h1 em{font-style:normal;color:var(--red);position:relative;white-space:nowrap}
 .hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.22em;background:var(--gold);z-index:-1;border-radius:6px}
+.hero-logo{display:block;width:min(320px,70%);height:auto;margin:-24px 0 4px -10px;filter:drop-shadow(0 10px 18px rgba(80,30,10,.25));animation:bob 5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-1deg)}}
+.news{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}.news .card .ico img{width:56px;height:56px}
+.clients{display:block;max-width:720px;width:100%;margin:34px auto 0}
+@media (max-width:900px){.news{grid-template-columns:1fr}}
 .hero p.lead{font-size:1.15rem;color:var(--ink-2);max-width:34em}
 .cta-row{display:flex;flex-wrap:wrap;gap:16px;margin:30px 0 26px}
 .facts{display:flex;flex-wrap:wrap;gap:10px}
@@ -90,7 +97,7 @@ section{padding:100px 0}
 @media (max-width:900px){.features{grid-template-columns:1fr}}
 
 /* menu */
-.menu{background:var(--wood) url(img/plateau.jpg) center/cover;position:relative;color:#fff}
+.menu{background:var(--wood) url(img/fond-menu.jpg) center/cover;position:relative;color:#fff}
 .menu::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,33,64,.82),rgba(43,33,64,.9))}
 .menu .wrap{position:relative}
 .menu .head p{color:#e9dcff}
@@ -149,7 +156,7 @@ footer a{color:#fff}
 
 <header>
   <nav class="wrap nav">
-    <a class="logo" href="#"><img src="img/poutine.webp" alt="">Casse-Croûte Rush</a>
+    <a class="logo" href="#"><img src="img/embleme.webp" alt="">Casse-Croûte Rush</a>
     <ul>
       <li><a href="#jeu">Le jeu</a></li>
       <li><a href="#menu">Le menu</a></li>
@@ -164,6 +171,7 @@ footer a{color:#fff}
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
+      <img class="hero-logo" src="img/logo.webp" alt="Logo Casse-Croûte Rush" width="900" height="502">
       <span class="tag">🍁 Jeu coopératif en temps réel</span>
       <h1>Le coup de feu au <em>casse-croûte</em>!</h1>
       <p class="lead">Poutine, tourtière, pâté chinois… Les commandes s'empilent et le sablier coule. Glissez vos cuisiniers, montez les assiettes et servez avant la fin du service. En équipe, sur le même écran.</p>
@@ -172,7 +180,7 @@ footer a{color:#fff}
         <a class="btn btn-ghost" href="telecharger/casse-croute-rush.apk" download>⬇ Android (APK)</a>
         <a class="btn btn-ghost" href="#jouer-comment">Comment jouer</a>
       </div>
-      <div class="facts"><span>👥 1 à 4 joueurs</span><span>⏱️ 4 services de 4 min</span><span>🍽️ 12 plats québécois</span><span>🆓 Gratuit</span></div>
+      <div class="facts"><span>👥 1 à 4 joueurs</span><span>⏱️ 4 services de 4 min</span><span>🍽️ 12 plats québécois</span><span>🔊 Musique québécoise</span><span>🆓 Gratuit</span></div>
     </div>
     <div class="shot">
       <div class="frame"><img src="img/jeu.jpg" alt="Le plateau de Casse-Croûte Rush avec les commandes, les postes de cuisine et la passe" width="1920" height="1080"></div>
@@ -199,10 +207,26 @@ footer a{color:#fff}
       <p>Personne n'attend son tour : tout le monde joue en même temps. Il faut se parler, se répartir les postes et garder un œil sur le chrono.</p>
     </div>
     <div class="features">
-      <article class="card reveal"><div class="ico" style="background:#ffe3dc"><img src="img/chef.webp" alt=""></div><h3>Des cuisiniers-sabliers</h3><p>Posez un cuisinier sur un poste : il y reste 30 secondes. Bien placer son monde, c'est la clé du service.</p></article>
+      <article class="card reveal"><div class="ico" style="background:#ffe3dc"><img src="img/sablier.webp" alt=""></div><h3>Des cuisiniers-sabliers</h3><p>Posez un cuisinier sur un poste : il y reste 30 secondes. Bien placer son monde, c'est la clé du service.</p></article>
       <article class="card reveal"><div class="ico" style="background:#dff3ff"><img src="img/ico-legumes.webp" alt=""></div><h3>Vous montez les assiettes</h3><p>Glissez vous-mêmes les ingrédients et les épices sur la bonne assiette. Une erreur? L'assiette est ratée.</p></article>
       <article class="card reveal"><div class="ico" style="background:#fff1c9"><img src="img/ico-piece.webp" alt=""></div><h3>Payez vos employés</h3><p>Chaque plat rapporte de l'argent et des étoiles, mais chaque cuisinier utilisé coûte 3 $. Pas de paye? Grève!</p></article>
     </div>
+  </div>
+</section>
+
+<section id="nouveau" style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="tag">Nouveau · v0.3</span>
+      <h2>Le casse-croûte fait peau neuve</h2>
+      <p>Nouveau logo, menu principal, musique et effets sonores, et des habitués du Québec qui passent leurs commandes.</p>
+    </div>
+    <div class="news">
+      <article class="card reveal"><div class="ico" style="background:#fff1c9"><img src="img/ico-toque.webp" alt=""></div><h3>Un vrai menu</h3><p>Écran de chargement, logo animé, menu principal, choix de la difficulté et options gardées sur votre appareil.</p></article>
+      <article class="card reveal"><div class="ico" style="background:#ffe3dc"><img src="img/ico-livre.webp" alt=""></div><h3>Des recettes lisibles</h3><p>Chaque assiette affiche sa recette : ce qui manque est en pointillé, ce qui est posé reçoit un crochet vert.</p></article>
+      <article class="card reveal"><div class="ico" style="background:#dff3ff"><img src="img/ico-engrenage.webp" alt=""></div><h3>Ça sonne québécois</h3><p>Un reel à l'accordéon pendant le service, une valse au menu, et des bruits de cuisine : grésillement, clochette, plonge…</p></article>
+    </div>
+    <img class="clients reveal" src="img/clients.webp" alt="Les clients du casse-croûte : bûcheron, grand-mère, joueur de hockey, ouvrier, femme d'affaires et camionneur" width="960" height="160" loading="lazy">
   </div>
 </section>
 
