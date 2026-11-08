@@ -1,11 +1,18 @@
 {
-  // Casse-Croûte Rush : Worker avec actifs statiques (même config que sugarshackrush / puzzlemd)
+  // Casse-Croûte Rush : Worker avec actifs statiques + salles en ligne (Durable Object "Salle")
   "name": "casse-croute-rush",
+  "main": "worker/index.js",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/ws", "/api/*"]
   },
+  "durable_objects": {
+    "bindings": [ { "name": "SALLES", "class_name": "Salle" } ]
+  },
+  "migrations": [ { "tag": "v1", "new_sqlite_classes": ["Salle"] } ],
   "workers_dev": true,
   "routes": [
     { "pattern": "casse-croute-rush.xalibur.cc", "custom_domain": true }
