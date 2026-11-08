@@ -60,6 +60,11 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,243,226,.86);backdro
 .news{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}.news .card .ico img{width:56px;height:56px}
 .clients{display:block;max-width:720px;width:100%;margin:34px auto 0}
 @media (max-width:900px){.news{grid-template-columns:1fr}}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:40px 0 10px}
+.gallery figure{margin:0}
+.gallery img{display:block;width:100%;height:auto;border:3px solid var(--ink);border-radius:18px;box-shadow:0 6px 0 var(--ink);background:#000}
+.gallery figcaption{margin-top:14px;text-align:center;font-weight:700}
+@media (max-width:900px){.gallery{grid-template-columns:1fr}}
 .hero p.lead{font-size:1.15rem;color:var(--ink-2);max-width:34em}
 .cta-row{display:flex;flex-wrap:wrap;gap:16px;margin:30px 0 26px}
 .facts{display:flex;flex-wrap:wrap;gap:10px}
@@ -183,7 +188,7 @@ footer a{color:#fff}
       <div class="facts"><span>👥 1-2 joueurs · 4 en ligne</span><span>🗺️ Campagne de 8 soirées</span><span>⏱️ 4 services de 4 min</span><span>🍽️ 12 plats québécois</span><span>🔊 Musique québécoise</span><span>🆓 Gratuit</span></div>
     </div>
     <div class="shot">
-      <div class="frame"><img src="img/jeu.jpg" alt="Le plateau de Casse-Croûte Rush avec les commandes, les postes de cuisine et la passe" width="1920" height="1080"></div>
+      <div class="frame"><img src="img/jeu.jpg?v=4" alt="Le plateau de Casse-Croûte Rush en plein service : commandes, cuisiniers aux postes et une guédille sur la passe" width="1456" height="819"></div>
       <img class="float f1" src="img/poutine.webp" alt="">
       <img class="float f2" src="img/tourtiere.webp" alt="">
       <img class="float f3" src="img/ico-sirop.webp" alt="">
@@ -225,6 +230,11 @@ footer a{color:#fff}
       <article class="card reveal"><div class="ico" style="background:#fff1c9"><img src="img/ico-parchemin.webp" alt=""></div><h3>Une campagne de 8 soirées</h3><p>De L'ouverture à La grande finale, en passant par la cabane à sucre et la tempête de neige : chaque soirée a ses plats, ses règles et jusqu'à 3 étoiles à gagner.</p></article>
       <article class="card reveal"><div class="ico" style="background:#dff3ff"><img src="img/ico-globe.webp" alt=""></div><h3>En ligne jusqu'à 4</h3><p>Un joueur crée la salle, les autres entrent son code à 4 chiffres. Chacun joue sur son appareil, navigateur ou Android, avec ses cuisiniers à sa couleur.</p></article>
       <article class="card reveal"><div class="ico" style="background:#ffe3dc"><img src="img/ico-fourneau.webp" alt=""></div><h3>Des améliorations au Bureau</h3><p>Grand fourneau, lave-vaisselle, terrasse, café offert… Six améliorations à acheter pendant la partie pour faire rouler la cuisine plus vite.</p></article>
+    </div>
+    <div class="gallery">
+      <figure class="reveal"><img src="img/capture-campagne.jpg" alt="L'écran de la campagne : 8 soirées à débloquer une après l'autre" width="1456" height="819" loading="lazy"><figcaption>La campagne : 8 soirées à débloquer</figcaption></figure>
+      <figure class="reveal"><img src="img/capture-soiree.jpg" alt="La fiche d'une soirée : plats, durée, patience des clients et objectif d'étoiles" width="1456" height="819" loading="lazy"><figcaption>Chaque soirée a ses plats et son objectif</figcaption></figure>
+      <figure class="reveal"><img src="img/capture-en-ligne.jpg" alt="La salle en ligne avec son code à 4 chiffres et trois joueurs" width="1456" height="819" loading="lazy"><figcaption>En ligne : un code, jusqu'à 4 joueurs</figcaption></figure>
     </div>
     <img class="clients reveal" src="img/clients.webp" alt="Les clients du casse-croûte : bûcheron, grand-mère, joueur de hockey, ouvrier, femme d'affaires et camionneur" width="960" height="160" loading="lazy">
   </div>
